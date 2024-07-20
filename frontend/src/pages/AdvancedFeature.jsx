@@ -1,11 +1,81 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Case from "../components/Case";
-import { useEffect } from "react";
+
+const mockUsers = [
+    {
+        user_id: "user1",
+        user_type: "student",
+        first_name: "John",
+        last_name: "Doe",
+        phone: "123-456-7890",
+        email: "john.doe@example.com",
+        n_tickets_scanned: 3,
+    },
+    {
+        user_id: "user2",
+        user_type: "guest",
+        first_name: "Jane",
+        last_name: "Smith",
+        phone: "987-654-3210",
+        email: "jane.smith@example.com",
+        n_tickets_scanned: 1,
+    },
+    {
+        user_id: "user3",
+        user_type: "student",
+        first_name: "Alice",
+        last_name: "Johnson",
+        phone: "555-555-5555",
+        email: "alice.johnson@example.com",
+        n_tickets_scanned: 5,
+    },
+    {
+        user_id: "user4",
+        user_type: "guest",
+        first_name: "Bob",
+        last_name: "Brown",
+        phone: "666-666-6666",
+        email: "bob.brown@example.com",
+        n_tickets_scanned: 2,
+    },
+];
 
 export default function AdvancedFeature() {
+    const [users, setUsers] = useState(mockUsers);
+    const [filteredUsers, setFilteredUsers] = useState(mockUsers);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [entries, setEntries] = useState("All");
+
     useEffect(() => {
         document.title = "Advanced Feature";
     }, []);
+
+    const handleSearch = (e) => {
+        const query = e.target.value.toLowerCase();
+        setSearchQuery(query);
+        if (query === "") {
+            setFilteredUsers(users);
+        } else {
+            const filtered = users.filter((user) =>
+                user.user_id.toLowerCase().includes(query) ||
+                user.first_name.toLowerCase().includes(query)
+            );
+            setFilteredUsers(filtered);
+        }
+    };
+
+    const handleEntriesChange = (e) => {
+        const value = e.target.value;
+        setEntries(value);
+    };
+
+    const getDisplayedUsers = () => {
+        if (entries === "All") {
+            return filteredUsers;
+        } else {
+            return filteredUsers.slice(0, parseInt(entries, 10));
+        }
+    };
 
     return (
         <Case>
@@ -19,13 +89,20 @@ export default function AdvancedFeature() {
                         <h3>Tabel General Feature</h3>
                         <div className="show-entries">
                             <p className="show-entries-show">Show</p>
-                            <select id="length-data" className="tw-p-1">
+                            <select
+                                id="length-data"
+                                className="tw-p-1"
+                                value={entries}
+                                onChange={handleEntriesChange}
+                            >
                                 <option value="1">1</option>
-                                <option value="5">5</option>
-                                <option value="10">10</option>
-                                <option value="25">25</option>
                                 <option value="50">50</option>
                                 <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="300">300</option>
+                                <option value="400">400</option>
+                                <option value="500">500</option>
+                                <option value="All">All</option>
                             </select>
                             <p className="show-entries-entries">Entries</p>
                         </div>
@@ -36,6 +113,8 @@ export default function AdvancedFeature() {
                                 id="search-data"
                                 placeholder="Search here..."
                                 className="form-control"
+                                value={searchQuery}
+                                onChange={handleSearch}
                             />
                         </div>
                         <div className="table-responsive tw-max-h-96">
@@ -51,62 +130,28 @@ export default function AdvancedFeature() {
                                         <th>Last Name</th>
                                         <th>Phone</th>
                                         <th>Email</th>
-                                        <th>Tickets Purchased</th>
-                                        
+                                        <th>Tickets Scanned</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr className="text-center">
-                                        <td>1</td>
-                                        <td className="text-left">
-                                            Air Document Intelligence
-                                        </td>
-                                        <td className="text-left">
-                                            Yooooo
-                                        </td>
-                                        <td className="text-left">
-                                            Yooooo
-                                        </td>
-                                        <td className="text-left">
-                                            Yooooo
-                                        </td>
-                                        <td className="text-left">
-                                            Yooooo
-                                        </td>
-                                        <td className="text-left">
-                                            Yooooo
-                                        </td>
-                                        <td className="text-left">
-                                            Yooooo
-                                        </td>
-                                        
-                                    </tr>
-
-                                    <tr className="text-center">
-                                        <td>1</td>
-                                        <td className="text-left">
-                                            Air Document Intelligence
-                                        </td>
-                                        <td className="text-left">
-                                            Yooooo
-                                        </td>
-                                        <td className="text-left">
-                                            Yooooo
-                                        </td>
-                                        <td className="text-left">
-                                            Yooooo
-                                        </td>
-                                        <td className="text-left">
-                                            Yooooo
-                                        </td>
-                                        <td className="text-left">
-                                            Yooooo
-                                        </td>
-                                        <td className="text-left">
-                                            Yooooo
-                                        </td>
-                                        
-                                    </tr>
+                                    {getDisplayedUsers().length > 0 ? (
+                                        getDisplayedUsers().map((user, index) => (
+                                            <tr key={user.user_id} className="text-center">
+                                                <td>{index + 1}</td>
+                                                <td className="text-left">{user.user_id}</td>
+                                                <td className="text-left">{user.user_type}</td>
+                                                <td className="text-left">{user.first_name}</td>
+                                                <td className="text-left">{user.last_name}</td>
+                                                <td className="text-left">{user.phone}</td>
+                                                <td className="text-left">{user.email}</td>
+                                                <td className="text-left">{user.n_tickets_scanned}</td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="8" className="text-center">No data available</td>
+                                        </tr>
+                                    )}
                                 </tbody>
                             </table>
                         </div>
@@ -115,5 +160,5 @@ export default function AdvancedFeature() {
                 </div>
             </div>
         </Case>
-    )
+    );
 }
