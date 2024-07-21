@@ -1,81 +1,43 @@
 import React, { useEffect, useState } from "react";
 import Case from "../components/Case";
 
-const mockUsers = [
-    {
-        user_id: "user1",
-        user_type: "student",
-        first_name: "John",
-        last_name: "Doe",
-        phone: "123-456-7890",
-        email: "john.doe@example.com",
-        n_tickets_scanned: 3,
-    },
-    {
-        user_id: "user2",
-        user_type: "guest",
-        first_name: "Jane",
-        last_name: "Smith",
-        phone: "987-654-3210",
-        email: "jane.smith@example.com",
-        n_tickets_scanned: 1,
-    },
-    {
-        user_id: "user3",
-        user_type: "student",
-        first_name: "Alice",
-        last_name: "Johnson",
-        phone: "555-555-5555",
-        email: "alice.johnson@example.com",
-        n_tickets_scanned: 5,
-    },
-    {
-        user_id: "user4",
-        user_type: "guest",
-        first_name: "Bob",
-        last_name: "Brown",
-        phone: "666-666-6666",
-        email: "bob.brown@example.com",
-        n_tickets_scanned: 2,
-    },
-];
-
 export default function AdvancedFeature() {
-    const [users, setUsers] = useState(mockUsers);
-    const [filteredUsers, setFilteredUsers] = useState(mockUsers);
+    const [users, setUsers] = useState([]);
+    const [filteredUsers, setFilteredUsers] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [entries, setEntries] = useState("All");
 
     useEffect(() => {
         document.title = "Advanced Feature";
+        fetchAdmittedUsers();
     }, []);
+
+    const fetchAdmittedUsers = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/getAdmittedUsers'); // Ensure the correct backend URL
+            const data = await response.json();
+            setUsers(data);
+            setFilteredUsers(data);
+        } catch (error) {
+            console.error("Error fetching admitted users:", error);
+        }
+    };
 
     const handleSearch = (e) => {
         const query = e.target.value.toLowerCase();
         setSearchQuery(query);
-        if (query === "") {
-            setFilteredUsers(users);
-        } else {
-            const filtered = users.filter((user) =>
-                user.user_id.toLowerCase().includes(query) ||
-                user.first_name.toLowerCase().includes(query)
-            );
-            setFilteredUsers(filtered);
-        }
+        setFilteredUsers(
+            query === "" ? users : users.filter(
+                user => user.user_id.toLowerCase().includes(query) || user.first_name.toLowerCase().includes(query)
+            )
+        );
     };
 
     const handleEntriesChange = (e) => {
-        const value = e.target.value;
-        setEntries(value);
+        setEntries(e.target.value);
     };
 
-    const getDisplayedUsers = () => {
-        if (entries === "All") {
-            return filteredUsers;
-        } else {
-            return filteredUsers.slice(0, parseInt(entries, 10));
-        }
-    };
+    const getDisplayedUsers = () => entries === "All" ? filteredUsers : filteredUsers.slice(0, parseInt(entries, 10));
 
     return (
         <Case>
@@ -86,15 +48,10 @@ export default function AdvancedFeature() {
             <div className="section-body">
                 <div className="card">
                     <div className="card-body px-0">
-                        <h3>Tabel General Feature</h3>
+                        <h3>Table General Feature</h3>
                         <div className="show-entries">
                             <p className="show-entries-show">Show</p>
-                            <select
-                                id="length-data"
-                                className="tw-p-1"
-                                value={entries}
-                                onChange={handleEntriesChange}
-                            >
+                            <select id="length-data" className="tw-p-1" value={entries} onChange={handleEntriesChange}>
                                 <option value="1">1</option>
                                 <option value="50">50</option>
                                 <option value="100">100</option>
@@ -121,9 +78,7 @@ export default function AdvancedFeature() {
                             <table>
                                 <thead className="tw-sticky tw-top-0">
                                     <tr className="tw-text-gray-700">
-                                        <th width="15%" className="text-center">
-                                            No
-                                        </th>
+                                        <th width="15%" className="text-center">No</th>
                                         <th>User Id</th>
                                         <th>User Type</th>
                                         <th>First Name</th>
