@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Case from "../components/Case";
 
-export default function GeneralFeature() {
+export default function PurchasedUsers() {
     const [users, setUsers] = useState([]);
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [entries, setEntries] = useState("All");
 
     useEffect(() => {
-        document.title = "General Feature";
         fetchPurchasedUsers();
     }, []);
 
@@ -42,13 +41,13 @@ export default function GeneralFeature() {
     return (
         <Case>
             <div className="section-header px-4 tw-rounded-none tw-shadow-md tw-shadow-gray-200 lg:tw-rounded-lg">
-                <h1 className="mb-1 tw-text-lg">General Feature</h1>
+                <h1 className="mb-1 tw-text-lg">Purchased Users</h1>
             </div>
 
             <div className="section-body">
                 <div className="card">
                     <div className="card-body px-0">
-                        <h3>Tabel General Feature</h3>
+                        <h3>Table of purchased users</h3>
                         <div className="show-entries">
                             <p className="show-entries-show">Show</p>
                             <select id="length-data" className="tw-p-1" value={entries} onChange={handleEntriesChange}>

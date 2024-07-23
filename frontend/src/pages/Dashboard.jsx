@@ -3,9 +3,6 @@ import Case from "../components/Case";
 import { useEffect } from "react";
 
 export default function Dashboard() {
-    useEffect(() => {
-        document.title = "Dashboard";
-    }, []);
 
     return (
         <Case>
@@ -16,17 +13,16 @@ export default function Dashboard() {
             <div className="section-body">
                 <div className="card">
                     <div className="card-body px-0">
-                        <h3>Tabel Dashboard</h3>
+                        <h3>About</h3>
                         <p className="px-4">
-                            Lorem ipsum dolor, sit amet consectetur adipisicing
-                            elit. Tenetur at asperiores earum officiis
-                            reiciendis necessitatibus eos! Nam harum tempore
-                            molestias aliquam, qui excepturi similique expedita
-                            vitae perferendis voluptatum laudantium vero
-                            deleniti laboriosam assumenda impedit repellendus
-                            eum, commodi totam! Molestiae ducimus placeat totam
-                            nesciunt, perspiciatis dolor mollitia ut saepe cum
-                            sunt?
+                            Welcome to the Curtin Colombo Events Admin Page for Unplugged 3.0!
+                            Only administrators authorized by the Curtin Colombo Events Team is
+                            allowed to access the sales and user data of the customers of 
+                            Unplugged 3.0 tickets.
+                            Sales Data provides all the data about the tickets purchased by 
+                            customers through the ccevents website.
+                            Admitted User Data provides all the data about the users who were
+                            allowed into the event premises by scanning their respective QR code.
                         </p>
                     </div>
                 </div>

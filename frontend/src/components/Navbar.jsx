@@ -2,13 +2,13 @@ import React from "react";
 import Case from "./Case";
 import NavLink from "./NavLink";
 import { Link } from "react-router-dom";
+import CCETLogo from '../assets/CCET_LOGO.png'; // Adjust the path based on your folder structure
 
 export default function Navbar() {
     return (
         <nav className="navbar navbar-expand-lg main-navbar">
-            <Link to="/" className="navbar-brand sidebar-gone-hide">
-                REACT VITE
-            </Link>
+            <img src={CCETLogo} alt="CCET logo"/>
+
             <div className="navbar-nav">
                 <a
                     href="#"
@@ -27,31 +27,31 @@ export default function Navbar() {
                         className="nav-link dropdown-toggle nav-link-lg nav-link-user"
                     >
                         <div className="d-sm-none d-lg-inline-block">
-                            Hi, Fahmi Ibrahim
+                            Hi Admin
                         </div>
                     </a>
                     <div className="dropdown-menu dropdown-menu-right">
-                        <div className="dropdown-title">
+                        {/* <div className="dropdown-title">
                             Logged in 5 min ago
-                        </div>
-                        <a
+                        </div> */}
+                        {/* <a
                             href="features-profile.html"
                             className="dropdown-item has-icon"
                         >
                             <i className="far fa-user"></i> Profile
-                        </a>
-                        <a
+                        </a> */}
+                        {/* <a
                             href="features-activities.html"
                             className="dropdown-item has-icon"
                         >
                             <i className="fas fa-bolt"></i> Activities
-                        </a>
-                        <a
+                        </a> */}
+                        {/* <a
                             href="features-settings.html"
                             className="dropdown-item has-icon"
                         >
                             <i className="fas fa-cog"></i> Settings
-                        </a>
+                        </a> */}
                         <div className="dropdown-divider"></div>
                         <a
                             href="#"
